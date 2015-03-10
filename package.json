@@ -1,0 +1,24 @@
+{
+  "name": "editore-embed-plugin",
+  "version": "1.0.0",
+  "author": "Evandro Eisinger <evandroeisinger@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evandroeisinger/editore-embed-plugin.js"
+  },
+  "scripts": {
+    "hint": "./node_modules/jshint/bin/jshint src/editore-embed-plugin.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "uglify-js": "^2.4.16"
+  },
+  "keywords": [
+    "editor",
+    "editore",
+    "plugin",
+    "contenteditable"
+  ],
+  "main": "src/editore-embed-plugin.js"
+}
