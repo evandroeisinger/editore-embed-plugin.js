@@ -23,6 +23,7 @@
       textarea: document.createElement('textarea'),
       header: document.createElement('header'),
       title: document.createElement('h1'),
+      actions: document.createElement('div'),
       cancelButton: document.createElement('button'),
       applyButton: document.createElement('button'),
     };
@@ -40,23 +41,23 @@
     self.elements.textarea.placeholder = self.options.textareaPlaceholder || 'Insert embed script';
 
     // add dialog elements
+    self.elements.actions.appendChild(self.elements.cancelButton);
+    self.elements.actions.appendChild(self.elements.applyButton);
+    self.elements.header.appendChild(self.elements.title);
+    self.elements.header.appendChild(self.elements.actions);
     self.elements.dialog.appendChild(self.elements.header);
     self.elements.dialog.appendChild(self.elements.textarea);
-    if (self.options.titleText)
-      self.elements.header.appendChild(self.elements.title);
-    self.elements.header.appendChild(self.elements.cancelButton);
-    self.elements.header.appendChild(self.elements.applyButton);
 
     // handlers
     self.onApply = function(e) {
       e.preventDefault();
       self.insertEmbed(self.elements.textarea.value);
-    }
+    };
 
     self.onCancel = function (e) {
       e.preventDefault();
       self.hideDialog();
-    }
+    };
 
     // set handlers
     self.elements.applyButton.addEventListener('click', self.onApply);
@@ -83,11 +84,40 @@
     },
 
     insertEmbed: function(script) {
-      console.log(script);
+      var self = this,
+          embed;
+
+      if (!script) {
+        self.elements.dialog.className = 'invalid';
+        return;
+      }
+      // create embed
+      embed = document.createElement('iframe');
+      embed.style.border = 0;
+      embed.onload = self.updateEmbedHeight;
+      // insert embed after the component element
+      self.component.element.parentElement.insertBefore(embed, self.component.element.nextSibling);
+      // if embed don't have siblings create a empty block after it
+      if (!embed.nextSibling)
+        self.component.element.parentElement.insertBefore(self.createEmptyBlock(), embed.nextSibling);
+      // insert embed content
+      embed.contentDocument.open();
+      embed.contentDocument.writeln(script);
+      embed.contentDocument.close();
+      // close dialog
+      self.hideDialog();
+    },
+
+    updateEmbedHeight: function() {
+      this.contentWindow.document.body.style.margin = 0;
+      this.height = this.contentWindow.document.body.scrollHeight + 'px';
     },
 
     showDialog: function() {
       var self = this;
+
+      self.elements.dialog.className = '';
+      self.elements.textarea.value = '';
       self.elements.dialog.showModal();
     },
 
