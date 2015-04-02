@@ -10,13 +10,15 @@
   "scripts": {
     "hint": "./node_modules/jshint/bin/jshint src/editore-embed-plugin.js"
   },
-  "license": "MIT",
   "devDependencies": {
+    "jshint": "^2.6.3",
     "uglify-js": "^2.4.16"
   },
   "keywords": [
     "editor",
     "editore",
+    "embed",
+    "script",
     "plugin",
     "contenteditable"
   ],
