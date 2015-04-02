@@ -17,8 +17,10 @@ EmbedPlugin = require('editore-embed-plugin');
 
 // then register!
 editore.registerInsertComponent(EmbedPlugin, {
-  // (optional) 
-
+    titleText: 'Embed plugin', /* optional */
+    applyButtonText: 'Insert', /* optional */
+    cancelButtonText: 'Cancel', /* optional */
+    textareaPlaceholder: 'Embed script...' /* optional */
 });
 ```
 ---
